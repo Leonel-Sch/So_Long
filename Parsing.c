@@ -6,149 +6,12 @@
 /*   By: lscheupl <lscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:29:31 by lscheupl          #+#    #+#             */
-/*   Updated: 2024/09/19 17:46:19 by lscheupl         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:38:18 by lscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Libft2/libft.h"
 #include "So_long.h"
-
-int	ft_last_line(t_solong *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->tabmap[i])
-		i++;
-	i--;
-	return (i);
-}
-int	*ft_player_coords(t_solong *data)
-{
-	int	i;
-	int	j;
-	int	*coords;
-
-	i = 0;
-	coords = malloc(sizeof(int) * 2);
-	while (data->tabmap[i])
-	{
-		j = 0;
-		while (data->tabmap[i][j])
-		{
-			if (data->tabmap[i][j] == 'P')
-			{
-				coords[0] = i;
-				coords[1] = j;
-				return (coords);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-int	ft_call_flood_fill(t_solong *data)
-{
-	int	*coords;
-
-	// bool	visited[30][60];
-	ft_clone_map(data);
-	coords = ft_player_coords(data);
-	if (ft_flood_fill(data, coords) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (data->countc != 0)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
-void	ft_clone_map(t_solong *data)
-{
-	int				i;
-	unsigned long	j;
-
-	i = 0;
-	data->clonemap = malloc(sizeof(char *) * (ft_last_line(data) + 1));
-	while (data->tabmap[i])
-	{
-		j = 0;
-		data->clonemap[i] = malloc(sizeof(char) * (ft_strlen(data->tabmap[i])
-					+ 1));
-		while (data->tabmap[i][j])
-		{
-			data->clonemap[i][j] = data->tabmap[i][j];
-			j++;
-		}
-		data->clonemap[i][j] = '\0';
-		i++;
-	}
-	data->clonemap[i] = NULL;
-}
-
-int	ft_flood_fill(t_solong *data, int *coords)
-{
-	if (coords[0] < 0 || coords[0] >= ft_last_line(data) || coords[1] < 0
-		|| coords[1] >= (int)ft_strlen(data->clonemap[0]))
-		return (EXIT_FAILURE);
-	if (data->clonemap[coords[0]][coords[1]] == '1'
-		|| data->clonemap[coords[0]][coords[1]] == 'V')
-		return (EXIT_FAILURE);
-	if (data->clonemap[coords[0]][coords[1]] == 'C')
-	{
-		data->clonemap[coords[0]][coords[1]] = '0';
-		data->countc--;
-	}
-	if (data->clonemap[coords[0]][coords[1]] == 'E')
-		return (EXIT_SUCCESS);
-	data->clonemap[coords[0]][coords[1]] = 'V';
-	coords[0]--;
-	if (ft_flood_fill(data, coords) == EXIT_SUCCESS)
-		return (EXIT_SUCCESS);
-	coords[0]++;
-	coords[0]++;
-	if (ft_flood_fill(data, coords) == EXIT_SUCCESS)
-		return (EXIT_SUCCESS);
-	coords[0]--;
-	coords[1]--;
-	if (ft_flood_fill(data, coords) == EXIT_SUCCESS)
-		return (EXIT_SUCCESS);
-	coords[1]++;
-	coords[1]++;
-	if (ft_flood_fill(data, coords) == EXIT_SUCCESS)
-		return (EXIT_SUCCESS);
-	coords[1]--;
-	data->clonemap[coords[0]][coords[1]] = '0';
-	return (EXIT_FAILURE);
-}
-int	ft_check_borders(t_solong *data)
-{
-	int				i;
-	unsigned long	j;
-
-	i = 0;
-	j = 0;
-	while (data->tabmap[i])
-	{
-		j = 0;
-		while (data->tabmap[i][j])
-		{
-			if (i == 0 || i == ft_last_line(data))
-			{
-				if (data->tabmap[i][j] != '1')
-					return (EXIT_FAILURE);
-			}
-			if (j == 0 || j == ft_strlen(data->tabmap[i]) - 1)
-			{
-				if (data->tabmap[i][j] != '1')
-					return (EXIT_FAILURE);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (EXIT_SUCCESS);
-}
 
 int	ft_check_characters_values(t_solong *data)
 {
@@ -215,21 +78,27 @@ int	ft_get_map(t_solong *data)
 	int		fd;
 	char	*line;
 	char	*linetotal;
+	char	*tmp;
 
 	fd = open(data->strmap, O_RDONLY);
 	if (fd < 0)
 		return (EXIT_FAILURE);
 	line = get_next_line(fd);
-	linetotal = "";
+	if (!line)
+		return (EXIT_FAILURE);
+	linetotal = ft_strdup("");
 	while (line)
 	{
+		tmp = linetotal;
 		linetotal = ft_strjoin(linetotal, line);
 		free(line);
+		free(tmp);
 		line = get_next_line(fd);
 	}
 	free(line);
 	data->tabmap = ft_split(linetotal, '\n');
-	return (ft_check_square(data));
+	free(linetotal);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_map_parsing(t_solong *data)

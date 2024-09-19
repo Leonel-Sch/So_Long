@@ -6,7 +6,7 @@
 #    By: lscheupl <lscheupl@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/04 16:34:49 by lscheupl          #+#    #+#              #
-#    Updated: 2024/09/18 17:47:50 by lscheupl         ###   ########.fr        #
+#    Updated: 2024/09/19 19:54:58 by lscheupl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,8 @@ SOURCES_LIBFT += Libft2/Get_Next_Line/get_next_line_utils.c
 
 SOURCES_SO_LONG += Main.c
 SOURCES_SO_LONG += Parsing.c
+SOURCES_SO_LONG += Parsing2.c
+SOURCES_SO_LONG += Utils.c
 
 
 #Objets#####################################
@@ -110,7 +112,7 @@ all:
 	$(MAKE) $(NAME)
 
 $(NAME):
-	$(CC) $(CFLAGS) $(SOURCES_SO_LONG) $(INCLUDES) $(INCLUDES_LIBFT) $(NAME_LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(SOURCES_SO_LONG) -Imlx_linux -O3 $(NAME_LIBFT) -o $(NAME)
 
 clean: fclean_libft
 
