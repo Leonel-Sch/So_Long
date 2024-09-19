@@ -6,7 +6,7 @@
 /*   By: lscheupl <lscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:37:05 by lscheupl          #+#    #+#             */
-/*   Updated: 2024/09/19 19:50:22 by lscheupl         ###   ########.fr       */
+/*   Updated: 2024/09/19 20:19:05 by lscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void	ft_init_data(t_solong *data)
 
 int	main(int argc, char **argv)
 {
-	int validity;
-	t_solong data;
+	t_solong	data;
 
 	ft_init_data(&data);
 	if (argc != 2)
@@ -33,8 +32,8 @@ int	main(int argc, char **argv)
 		ft_putendl_fd("Wrong Number of Arguments", 2);
 	}
 	data.strmap = argv[1];
-	validity = ft_map_parsing(&data);
-	if (validity != 0)
-		ft_putendl_fd("Invalid Map", 2);
-	return (validity);
+	if (ft_map_parsing(&data) == EXIT_FAILURE)
+		return (ft_putendl_fd("Invalid Map", 2), EXIT_FAILURE);
+	ft_mlx(&data);
+	return (EXIT_SUCCESS);
 }
