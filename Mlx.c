@@ -6,7 +6,7 @@
 /*   By: lscheupl <lscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 20:19:16 by lscheupl          #+#    #+#             */
-/*   Updated: 2024/09/21 14:48:45 by lscheupl         ###   ########.fr       */
+/*   Updated: 2024/09/21 21:14:13 by lscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	ft_mlx(t_solong *data)
 	width = 32;
 	height = 32;
 	ft_initialize_assets(&mlx_data, width, height);
-	ft_initialize_assets(&mlx_data, width, height);
 	mlx_data.img = mlx_new_image(mlx_data.mlx, 32 * ft_strlen(data->tabmap[0]),
 			32 * ((ft_last_line(data)) + 1));
 	mlx_data.win = mlx_new_window(mlx_data.mlx, 32 * ft_strlen(data->tabmap[0]),
@@ -77,7 +76,7 @@ void	ft_mlx(t_solong *data)
 	sleep(3);
 	data->tabmap[0][0] = 'P';
 	ft_initialize_window(&mlx_data, data);
-	sleep(10);
+	sleep(1);
 	mlx_destroy_window(mlx_data.mlx, mlx_data.win);
 	mlx_destroy_display(mlx_data.mlx);
 	mlx_loop(mlx_data.mlx);

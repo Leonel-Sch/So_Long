@@ -6,7 +6,7 @@
 /*   By: lscheupl <lscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 18:36:53 by lscheupl          #+#    #+#             */
-/*   Updated: 2024/09/19 19:43:38 by lscheupl         ###   ########.fr       */
+/*   Updated: 2024/09/21 21:14:49 by lscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	ft_flood_fill(t_solong *data, int x, int y)
 		return (EXIT_SUCCESS);
 	if (ft_flood_fill(data, x, y - 1) == EXIT_SUCCESS)
 		return (EXIT_SUCCESS);
-	data->clonemap[x][y] = '0';
 	return (EXIT_FAILURE);
 }
 
