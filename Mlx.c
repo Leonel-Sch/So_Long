@@ -6,27 +6,79 @@
 /*   By: lscheupl <lscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 20:19:16 by lscheupl          #+#    #+#             */
-/*   Updated: 2024/09/19 20:50:52 by lscheupl         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:48:45 by lscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "So_long.h"
 
+void ft_initialize_assets(t_mlx *mlx_data, int width, int height)
+{
+	mlx_data->assets[0] = mlx_xpm_file_to_image(mlx_data->mlx, "assets/Wall.xpm",
+			&width, &height);
+	mlx_data->assets[1] = mlx_xpm_file_to_image(mlx_data->mlx, "assets/Floor.xpm",
+			&width, &height);
+	mlx_data->assets[2] = mlx_xpm_file_to_image(mlx_data->mlx, "assets/Exit.xpm",
+			&width, &height);
+	mlx_data->assets[3] = mlx_xpm_file_to_image(mlx_data->mlx,
+			"assets/Player.xpm", &width, &height);
+	mlx_data->assets[4] = mlx_xpm_file_to_image(mlx_data->mlx,
+			"assets/Collectibles.xpm", &width, &height);
+}
+
+void ft_initialize_window(t_mlx *mlx_data, t_solong *data)
+{
+	int i;
+	int j;
+	i = 0;
+	while (data->tabmap[i])
+	{
+		j = 0;
+		while (data->tabmap[i][j])
+		{
+			if (data->tabmap[i][j] == '1')
+				mlx_put_image_to_window(mlx_data->mlx, mlx_data->win,
+					mlx_data->assets[0], j * 32, i * 32);
+			if (data->tabmap[i][j] == '0')
+				mlx_put_image_to_window(mlx_data->mlx, mlx_data->win,
+					mlx_data->assets[1], j * 32, i * 32);
+			if (data->tabmap[i][j] == 'E')
+				mlx_put_image_to_window(mlx_data->mlx, mlx_data->win,
+					mlx_data->assets[2], j * 32, i * 32);
+			if (data->tabmap[i][j] == 'P')
+				mlx_put_image_to_window(mlx_data->mlx, mlx_data->win,
+					mlx_data->assets[3], j * 32, i * 32);
+			if (data->tabmap[i][j] == 'C')
+				mlx_put_image_to_window(mlx_data->mlx, mlx_data->win,
+					mlx_data->assets[4], j * 32, i * 32);
+			j++;
+		}
+		i++;
+	}
+}
+
 void	ft_mlx(t_solong *data)
 {
-	void *mlx;
-	void *win;
-	t_mlx img;
+	t_mlx mlx_data;
+	int width;
+	int height;
 
-	data->countc = 0;
-	mlx = mlx_init();
-	img.img = mlx_new_image(mlx, 800, 600);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-			&img.endian);
-	win = mlx_new_window(mlx, 800, 600, "So_long");
-	mlx_put_image_to_window(mlx, win, img.img, 0, 0);
-	//mlx_hook(win, 2, 1L << 0, ft_key_hook, data);
-	//mlx_hook(win, 17, 1L << 17, ft_close, mlx);
-
-	mlx_loop(mlx);
+	mlx_data.mlx = mlx_init();
+	mlx_data.assets = malloc(sizeof(void *) * 6);
+	width = 32;
+	height = 32;
+	ft_initialize_assets(&mlx_data, width, height);
+	ft_initialize_assets(&mlx_data, width, height);
+	mlx_data.img = mlx_new_image(mlx_data.mlx, 32 * ft_strlen(data->tabmap[0]),
+			32 * ((ft_last_line(data)) + 1));
+	mlx_data.win = mlx_new_window(mlx_data.mlx, 32 * ft_strlen(data->tabmap[0]),
+			32 * ((ft_last_line(data)) + 1), "So_long");
+	ft_initialize_window(&mlx_data, data);
+	sleep(3);
+	data->tabmap[0][0] = 'P';
+	ft_initialize_window(&mlx_data, data);
+	sleep(10);
+	mlx_destroy_window(mlx_data.mlx, mlx_data.win);
+	mlx_destroy_display(mlx_data.mlx);
+	mlx_loop(mlx_data.mlx);
 }

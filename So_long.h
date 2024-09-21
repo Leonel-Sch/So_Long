@@ -6,7 +6,7 @@
 /*   By: lscheupl <lscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:38:06 by lscheupl          #+#    #+#             */
-/*   Updated: 2024/09/19 20:46:48 by lscheupl         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:11:35 by lscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ typedef struct s_solong
 
 typedef struct s_mlx
 {
+	void	**assets;
 	void	*img;
-	char	*addr;
+	void	*mlx;
+	void	*win;
+	//char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
