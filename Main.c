@@ -6,7 +6,7 @@
 /*   By: lscheupl <lscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:37:05 by lscheupl          #+#    #+#             */
-/*   Updated: 2024/09/19 20:19:05 by lscheupl         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:22:26 by lscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void	ft_init_data(t_solong *data)
 	data->strmap = NULL;
 	data->tabmap = NULL;
 	data->clonemap = NULL;
+	data->exit = malloc(sizeof(int) * 2);
+	data->exit[0] = 0;
+	data->exit[1] = 0;
 }
 
 int	main(int argc, char **argv)

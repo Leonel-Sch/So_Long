@@ -6,7 +6,7 @@
 /*   By: lscheupl <lscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 18:36:53 by lscheupl          #+#    #+#             */
-/*   Updated: 2024/09/21 21:14:49 by lscheupl         ###   ########.fr       */
+/*   Updated: 2024/09/22 15:50:35 by lscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	ft_flood_fill(t_solong *data, int x, int y)
 		data->counte--;
 	if ((data->clonemap[x][y] == 'E' || data->counte == 0) && data->countc == 0)
 		return (EXIT_SUCCESS);
-
 	data->clonemap[x][y] = 'V';
 	if (ft_flood_fill(data, x + 1, y) == EXIT_SUCCESS)
 		return (EXIT_SUCCESS);
@@ -70,13 +69,16 @@ int	*ft_player_coords(t_solong *data)
 int	ft_call_flood_fill(t_solong *data)
 {
 	int	*coords;
+	int	cache;
 
+	cache = data->countc;
 	ft_clone_map(data);
 	coords = ft_player_coords(data);
 	if (ft_flood_fill(data, coords[0], coords[1]) == EXIT_FAILURE)
 		return (free(coords), ft_free_tab(data->clonemap, 0), EXIT_FAILURE);
 	if (data->countc != 0)
 		return (free(coords), ft_free_tab(data->clonemap, 0), EXIT_FAILURE);
+	data->countc = cache;
 	return (free(coords), ft_free_tab(data->clonemap, 0), EXIT_SUCCESS);
 }
 
@@ -108,4 +110,3 @@ int	ft_check_borders(t_solong *data)
 	}
 	return (EXIT_SUCCESS);
 }
-

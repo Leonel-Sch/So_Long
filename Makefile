@@ -6,7 +6,7 @@
 #    By: lscheupl <lscheupl@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/04 16:34:49 by lscheupl          #+#    #+#              #
-#    Updated: 2024/09/19 20:38:33 by lscheupl         ###   ########.fr        #
+#    Updated: 2024/09/22 15:46:57 by lscheupl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,8 @@ SOURCES_SO_LONG += Parsing.c
 SOURCES_SO_LONG += Parsing2.c
 SOURCES_SO_LONG += Utils.c
 SOURCES_SO_LONG += Mlx.c
-
+SOURCES_SO_LONG += Game.c
+SOURCES_SO_LONG += Game2.c
 
 #Objets#####################################
 #PATH = obj/

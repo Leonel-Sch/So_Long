@@ -6,7 +6,7 @@
 /*   By: lscheupl <lscheupl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 15:29:31 by lscheupl          #+#    #+#             */
-/*   Updated: 2024/09/19 19:38:18 by lscheupl         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:26:09 by lscheupl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_check_square(t_solong *data)
 			return (EXIT_FAILURE);
 		i++;
 	}
-	if (i > 29)
+	if (i > 30)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -103,25 +103,25 @@ int	ft_get_map(t_solong *data)
 
 int	ft_map_parsing(t_solong *data)
 {
-	int len;
+	int	len;
 
 	len = ft_strlen(data->strmap);
 	if (!(data->strmap[len - 1] == 'r' && data->strmap[len - 2] == 'e'
 			&& data->strmap[len - 3] == 'b' && data->strmap[len - 4] == '.'
 			&& data->strmap[len - 5] >= 32 && data->strmap[len - 5] <= 127
 			&& data->strmap[len - 5] != '/'))
-		return (EXIT_FAILURE);
+		return (free(data->exit), EXIT_FAILURE);
 	if (ft_get_map(data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (free(data->exit), EXIT_FAILURE);
 	if (ft_check_square(data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (free(data->exit), ft_free_tab(data->tabmap, 0), EXIT_FAILURE);
 	if (ft_check_characters(data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (free(data->exit), ft_free_tab(data->tabmap, 0), EXIT_FAILURE);
 	if (ft_check_characters_values(data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (free(data->exit), ft_free_tab(data->tabmap, 0), EXIT_FAILURE);
 	if (ft_check_borders(data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (free(data->exit), ft_free_tab(data->tabmap, 0), EXIT_FAILURE);
 	if (ft_call_flood_fill(data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (free(data->exit), ft_free_tab(data->tabmap, 0), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
